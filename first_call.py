@@ -10,13 +10,17 @@ url = 'https://api.the-odds-api.com/v4/sports'
 
 api_key = API_KEY
 
-key_for_url = 'mma_mixed_martial_arts'
+
+
+
+
+
 def first_api_call():
     
     
 
     response = requests.get(
-        f"{url}/{key_for_url}/odds", 
+        f"{url}", 
         params = {
         "apiKey": api_key,
         'regions': "us",  # Specify the regions you want odds for (e.g., 'us', 'eu', 'au')
@@ -71,11 +75,46 @@ def check_api_usage():
         print("API usage check failed with status code:", response.status_code)
 
 
+
+
+
+
+def specific_sport_results():
+    
+    """
+    when using 'odds' at end of url, you will get the odds for the specific sport.
+    but you must include region param in the request, otherwise you will get an error.
+    
+    """
+    key_for_url = 'mma_mixed_martial_arts'
+    
+    response = requests.get(
+        f"{url}/{key_for_url}/odds", 
+        params = {
+        "apiKey": api_key,
+        'regions': "us",  # Specify the regions you want odds for (e.g., 'us', 'eu', 'au')
+
+        },
+
+    )
+    if response.status_code == 200:
+        print("API call for specific sport successful!")
+        result = response.json()
+        print("Specific sport Response content:", result)  # Assuming the response is in JSON format
+        print("Number of events available for this sport:", len(result))
+
+    else:
+        print("API call for specific sport failed with status code:", response.status_code)
+
+
+   
+   
+   
+   
+   
+   
     #run
 if __name__ == "__main__":
     first_api_call()
     check_api_usage()
-
-
-
-        
+    specific_sport_results()
