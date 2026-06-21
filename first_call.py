@@ -10,17 +10,17 @@ url = 'https://api.the-odds-api.com/v4/sports'
 
 api_key = API_KEY
 
-
+key_for_url = 'mma_mixed_martial_arts'
 def first_api_call():
     
     
 
     response = requests.get(
-        f"{url}", 
+        f"{url}/{key_for_url}/odds", 
         params = {
         "apiKey": api_key,
-        
-        
+        'regions': "us",  # Specify the regions you want odds for (e.g., 'us', 'eu', 'au')
+
         },
 
     )
@@ -30,7 +30,7 @@ def first_api_call():
 
     
 
-
+    result = response.json()  # Assuming the response is in JSON format, this will parse it into a Python dictionary or list depending on the structure of the JSON data.
 
     # Check if the request was successful --> a successful request will have a status code of 200
 
@@ -39,9 +39,9 @@ def first_api_call():
         #get status code
         print(response.status_code)
         print("API call successful!")
-        print("Response content:", response.json()[:2])  # Assuming the response is in JSON format
-        print("sports available:" , len(response.json()))
-        print("First one:", response.json()[0]["title"], "->", response.json()[0]["key"])
+        print("Response content:", result)  # Assuming the response is in JSON format
+        print("sports available:" , len(result))
+        #print("First one:", result[0]["title"], "->", result[0]["key"])
 
     else:
         print("API call failed with status code:", response.status_code)
