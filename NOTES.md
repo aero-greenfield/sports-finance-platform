@@ -54,12 +54,23 @@ the project is the accumulation of snapshots of upcoming fight every few hours.
 
 # Architecture notes:
 
-- Bronze:   the raw landing of data, the exact API response, stored an untouched. one row pear fight per pull, the full JSON game object in a JSONB column, with sport_key, event_id, and ingested_at. at this layer there is no parsing or cleaning, the ruls is to store faithfully and pull borad, so you can always re-run downstream logic against the original data without re-hitting the API and burning quota. the ingest_at is what turns a stack of identical looking pulls into a time series. 
+* Bronze:   the raw landing of data, the exact API response, stored an untouched. one row pear fight per pull, the full JSON game object in a JSONB column, with sport_key, event_id, and ingested_at. at this layer there is no parsing or cleaning, the ruls is to store faithfully and pull borad, so you can always re-run downstream logic against the original data without re-hitting the API and burning quota. the ingest_at is what turns a stack of identical looking pulls into a time series. 
 
 
-- Silver: cleaned and flattened. here I will explode the nested structure (game --> bookmaker --> market --> outcome) into flat rows: one row per fight, bookmakers, fighers, and snapshop. prices get cast into real numbers, timestamps into real datetimes, duplicate pulls get deduped, and you compute implied probability (1 / price) as a column. the output is one trustworth, granular table -- "ad snapshot T, book Y priced fighter X at P, implied prob Q". data is clean but not yet aggregated. this is where the dbt models do most of the work. 
+* Silver: cleaned and flattened. here I will explode the nested structure (game --> bookmaker --> market --> outcome) into flat rows: one row per fight, bookmakers, fighers, and snapshop. prices get cast into real numbers, timestamps into real datetimes, duplicate pulls get deduped, and you compute implied probability (1 / price) as a column. the output is one trustworth, granular table -- "ad snapshot T, book Y priced fighter X at P, implied prob Q". data is clean but not yet aggregated. this is where the dbt models do most of the work. 
 
-- GOLD: analysis ready answers. aggregations shaped to answer one question each and feed one dashbaord: your three tables: 1. cross-book comparison, 2. line-movement time series, 3. per-book vig. Each one rolls silvers clean rows up into exactl the shape Metabase needs. 
+* GOLD: analysis ready answers. aggregations shaped to answer one question each and feed one dashbaord: your three tables: 1. cross-book comparison, 2. line-movement time series, 3. per-book vig. Each one rolls silvers clean rows up into exactl the shape Metabase needs. 
+
+
+
+
+# Stack notes:
+
+
+
+
+
+
 
 
 # GENERAL PROJECT NOTES:
