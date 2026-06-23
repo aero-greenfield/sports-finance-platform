@@ -67,10 +67,31 @@ the project is the accumulation of snapshots of upcoming fight every few hours.
 # Stack notes:
 
 
+* Airflow -- widly used service that allows you to create and orchestrate complex data pipelines. 
+
+- intro to data orchestration:
+
+- how a DAG is build/Airflow under the hood:
+
+- setting up a local env:
+
+- how DAGS are scheduled
 
 
 
+* Docker compose/ Docker--
 
+- compose networking:
+
+- Image vs. container
+
+- docker-compose.yml:
+
+- Service name = hostname:
+
+- Ports (5432:5432):
+
+- Volumes: 
 
 
 # GENERAL PROJECT NOTES:
@@ -150,3 +171,8 @@ implied probability and vig:
     - using the requests.get(), you must make sure your params match the specific API's param list. you must look through their docs and match their convention. 
 
 
+* Airflow via Astro CLI. 
+    - scaffold the project 
+        - this creates project files: a dags folder for the DAGS, plugins, requirements file, packages file for OS level packages, and a dockerfile. (also generates a example DAG that can be used for syntax reference)
+
+    - 
